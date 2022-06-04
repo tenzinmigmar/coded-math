@@ -1,13 +1,21 @@
 import matplotlib.pyplot as plt
 
+
 class Vector:
-    scale = 1
+    color_value = 0
+    colors = ["coral", "rosybrown", "royalblue",
+              "fuchsia", "mediumaquamarine",
+              "lightgreen", "pink", "skyblue"]
 
     def __init__(self, x_component, y_component, x=0, y=0):
         self.x = x
         self.y = y
         self.x_component = x_component
         self.y_component = y_component
+        if Vector.color_value == 7:
+            Vector.color_value = 0
+        Vector.color_value += 1
+        self.color = Vector.colors[Vector.color_value]
 
     def __add__(self, vector):
         return Vector(self.x_component + vector.x_component,
@@ -18,21 +26,22 @@ class Vector:
                       self.y_component - vector.x_component)
 
 
-vector1 = Vector(1, 1)
-vector2 = Vector(1, 2, 1, 2)
-vector3 = vector1 + vector2
+def plot_vectors(*args):
+    x_pos = [arg.x for arg in args]
+    y_pos = [arg.y for arg in args]
+    x_direct = [arg.x_component for arg in args]
+    y_direct = [arg.y_component for arg in args]
+    colors = [arg.color for arg in args]
 
-fig, ax = plt.subplots()
+    fig, ax = plt.subplots()
+    ax.quiver(x_pos, y_pos, x_direct, y_direct, color=colors, angles='xy', scale_units="xy", scale=1)
 
-x_pos = [vector1.x, vector2.x, vector3.x]
-y_pos = [vector1.y, vector2.y, vector3.y]
-x_direct = [vector1.x_component, vector2.x_component, vector3.x_component]
-y_direct = [vector1.y_component, vector2.y_component, vector3.y_component]
+    plt.xlim([min(x_direct) - 5, max(x_direct) + 5])
+    plt.ylim([min(y_direct) - 5, max(y_direct) + 5])
+    plt.show()
 
-ax.quiver(x_pos, y_pos, x_direct, y_direct, angles='xy', scale_units='xy', scale=1)
-plt.xlim([0, 5])
-plt.ylim([0, 5])
+vector1 = Vector(0, 1)
+vector2 = Vector(1, 0)
+vector3 = Vector(1, 1)
 
-plt.show()
-
-print(vector3.x_component, vector3.y_component)
+plot_vectors(vector1, vector2, vector3)
