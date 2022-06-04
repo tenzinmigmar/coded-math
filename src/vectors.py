@@ -40,8 +40,10 @@ def plot_vectors(*args):
     plt.ylim([min(y_direct) - 5, max(y_direct) + 5])
     plt.show()
 
+
 vector1 = Vector(0, 1)
 vector2 = Vector(1, 0)
-vector3 = Vector(1, 1)
+vector3 = vector1 + vector2
+vector4 = vector1 - vector2
 
-plot_vectors(vector1, vector2, vector3)
+plot_vectors(vector1, vector2, vector3, vector4)
